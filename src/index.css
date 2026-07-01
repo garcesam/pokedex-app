@@ -9,6 +9,7 @@ html, body {
 }
 
 body {
+  font-family: 'Poppins', system-ui, sans-serif;
   background-color: #4caf50;
   background-image: url('/tiles/route1-tile.svg');
   background-repeat: repeat;
@@ -19,4 +20,8 @@ body {
 @keyframes walk {
   from { background-position: 0 0; }
   to   { background-position: -128px -128px; }
+}
+
+input, button, textarea, select {
+  font-family: inherit;
 }

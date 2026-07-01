@@ -1,0 +1,35 @@
+.grass-rustle-layer {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.tuft {
+  position: absolute;
+  image-rendering: pixelated;
+  transform-origin: bottom center;
+  animation-name: rustle;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  filter: drop-shadow(1px 2px 0 rgba(0, 0, 0, 0.2));
+}
+
+@keyframes rustle {
+  0%, 82%, 100% {
+    transform: rotate(0deg) scaleX(1);
+  }
+  86% {
+    transform: rotate(-10deg) scaleX(0.94);
+  }
+  90% {
+    transform: rotate(9deg) scaleX(1.05);
+  }
+  94% {
+    transform: rotate(-6deg) scaleX(0.97);
+  }
+  97% {
+    transform: rotate(3deg) scaleX(1);
+  }
+}

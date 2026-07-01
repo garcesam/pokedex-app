@@ -1,28 +1,16 @@
-# Pokédex App
+# React + Vite
 
-A modern, locally-hosted Pokédex web app built with React + Vite. Pulls live data
-(stats, types, abilities, flavor text) and pixel-art sprites from [PokeAPI](https://pokeapi.co/)
-and displays it in a fun, card-based UI.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Tech Stack
-- React + Vite
-- PokeAPI (REST)
-- CSS (styling TBD)
+Currently, two official plugins are available:
 
-## Features (planned)
-- [ ] Search / browse Pokémon
-- [ ] Pixel sprite + official artwork per Pokémon
-- [ ] Type, stats, abilities display
-- [ ] Responsive, playful UI
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## Getting Started
+## React Compiler
 
-```bash
-git clone https://github.com/garcesam/pokedex-app.git
-cd pokedex-app
-npm install
-npm run dev
-```
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Status
-🚧 Work in progress — built step by step while learning React + APIs.
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.

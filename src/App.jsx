@@ -103,6 +103,27 @@ function App() {
     setShowSuggestions(false)
   }
 
+  function handleCardMouseMove(event) {
+  const card = event.currentTarget
+  const rect = card.getBoundingClientRect()
+
+  // Mouse position relative to the card, as a -1 to 1 range from center
+  const x = (event.clientX - rect.left) / rect.width - 0.5
+  const y = (event.clientY - rect.top) / rect.height - 0.5
+
+  const maxTilt = 14 // degrees
+
+  setTilt({
+    rotateY: x * maxTilt * 2,   // left/right mouse movement tilts around vertical axis
+    rotateX: -y * maxTilt * 2,  // up/down mouse movement tilts around horizontal axis (inverted so it feels natural)
+  })
+}
+
+function handleCardMouseLeave() {
+  setIsHovering(false)
+  setTilt({ rotateX: 0, rotateY: 0 })
+}
+
   const suggestions =
     searchInput.trim().length > 0
       ? allNames
@@ -159,7 +180,17 @@ function App() {
       </div>
 
       {pokemon && !loading && !error && (
-        <div className="card" style={{ backgroundColor: bgColor }}>
+        <div
+          className="card"
+          style={{
+            backgroundColor: bgColor,
+            transform: `perspective(800px) rotateX(${tilt.rotateX}deg) rotateY(${tilt.rotateY}deg) scale(${isHovering ? 1.04 : 1})`,
+            transition: isHovering ? 'transform 0.1s ease-out' : 'transform 0.5s ease',
+          }}
+          onMouseMove={handleCardMouseMove}
+          onMouseEnter={() => setIsHovering(true)}
+          onMouseLeave={handleCardMouseLeave}
+        >
           <div className="card-header">
             <h2 className="pokemon-name">{pokemon.name}</h2>
             <span className="card-id">No. {String(pokemon.id).padStart(3, '0')}</span>

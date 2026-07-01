@@ -66,6 +66,8 @@
   animation: popIn 0.3s ease;
   display: flex;
   flex-direction: column;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
 @keyframes popIn {

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import GrassRustle from './components/GrassRustle'
 import './App.css'
 
@@ -40,6 +40,9 @@ function App() {
   const [tilt, setTilt] = useState({ rotateX: 0, rotateY: 0 })
   const [isHovering, setIsHovering] = useState(false)
 
+  const [isCryPlaying, setIsCryPlaying] = useState(false)
+  const audioRef = useRef(null)
+
   // Fetch the full list of Pokémon names once, on first load (powers autocomplete)
   useEffect(() => {
     fetch('https://pokeapi.co/api/v2/pokemon?limit=2000')
@@ -50,6 +53,12 @@ function App() {
 
   // Fetch the selected Pokémon (and its species data) whenever pokemonName changes
   useEffect(() => {
+    if (audioRef.current) {
+    audioRef.current.pause()
+    audioRef.current = null
+    }
+    setIsCryPlaying(false)
+
     setLoading(true)
     setError(null)
     setDescription('')
@@ -124,6 +133,27 @@ function handleCardMouseLeave() {
   setTilt({ rotateX: 0, rotateY: 0 })
 }
 
+function handleCardClick() {
+  if (isCryPlaying) return // ignore clicks while a cry is already playing
+
+  const cryUrl = pokemon?.cries?.latest
+  if (!cryUrl) return
+
+  const audio = new Audio(cryUrl)
+  audioRef.current = audio
+
+  setIsCryPlaying(true)
+
+  audio.play().catch((err) => {
+    console.error('Failed to play cry:', err)
+    setIsCryPlaying(false)
+  })
+
+  audio.addEventListener('ended', () => {
+    setIsCryPlaying(false)
+  })
+}
+
   const suggestions =
     searchInput.trim().length > 0
       ? allNames
@@ -186,10 +216,12 @@ function handleCardMouseLeave() {
             backgroundColor: bgColor,
             transform: `perspective(800px) rotateX(${tilt.rotateX}deg) rotateY(${tilt.rotateY}deg) scale(${isHovering ? 1.04 : 1})`,
             transition: isHovering ? 'transform 0.1s ease-out' : 'transform 0.5s ease',
+            cursor: isCryPlaying ? 'default' : 'pointer',
           }}
           onMouseMove={handleCardMouseMove}
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={handleCardMouseLeave}
+          onClick={handleCardClick}
         >
           <div className="card-header">
             <h2 className="pokemon-name">{pokemon.name}</h2>
